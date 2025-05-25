@@ -1,0 +1,83 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.answer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        display: flex;
+        width: 90%;
+        max-width: 280px;
+        height: 100%;
+        justify-content: start;
+        align-items: center;
+        overflow-wrap: break-word;
+    }
+
+    i {
+        display: flex;
+        width: 10%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        display: flex;
+        width: 90%;
+        max-width: 480px;
+        height: 100%;
+        justify-content: start;
+        align-items: center;
+        overflow-wrap: break-word;
+    }
+
+    i {
+        display: flex;
+        width: 10%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+table thead tr th {
+    font-size: 20px;
+    text-align: center;
+}
+
+table tbody tr td {
+    vertical-align: middle;
+}
+
+.case,
+.uid,
+.status {
+    text-align: center;
+}
+
+.bx-info-octagon {
+    font-size: 20px;
+    color: dodgerblue;
+}
