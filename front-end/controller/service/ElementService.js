@@ -9,8 +9,11 @@ export function CreateElementInfor() {
 
 export function createElementOverlay() {
     const overlay = document.createElement("div")
+    const body = document.querySelector("body")
 
     overlay.className("overlay")
+
+    body.appendChild(overlay)
 }
 
 export function removeElementById(ele) {
