@@ -1,0 +1,43 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Case</th>
+            <th>UID/ Device ID</th>
+            <th>Content</th>
+            <th>Link Image</th>
+            <th>Answer</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="c in cases">
+            <td class="case">
+                <p>{{c.case}}</p>
+            </td>
+            <td class="uid">
+                <p>{{c.id}}</p>
+            </td>
+            <td>
+                <div class="content">
+                    <p>{{c.content}}</p>
+                    <i class='bx bx-info-octagon' title="Thêm thông tin"></i>
+                </div>
+            </td>
+            <td>
+                <p>{{c.link}}</p>
+            </td>
+            <td>
+                <div class="answer">
+                    <p>{{c.answer}}</p>
+
+                    <i class='bx bx-info-octagon' title="Thêm thông tin"></i>
+                </div>
+            </td>
+            <td class="status">{{c.status}}</td>
+            <td>
+                <button class="btn btn-outline-info">Chi tiết</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
