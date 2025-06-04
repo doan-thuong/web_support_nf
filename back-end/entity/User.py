@@ -7,6 +7,7 @@ class User:
     case: int
     uid: str
     device_id: str
+    mail: str
     content: str
     link: list
     id_bill: list
