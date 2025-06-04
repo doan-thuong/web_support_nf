@@ -14,7 +14,7 @@ def has_no_lowercase(str_check):
 def handle_to_get_device_id(str_old):
     if not str_old: return None
 
-    list_str = str_old.split(" ")
+    list_str = re.split('[;, \n]', str_old.strip())
     for str in list_str:
         if not str.strip(): continue
 
@@ -30,7 +30,7 @@ def handle_to_get_device_id(str_old):
 def handle_to_get_uid(str_old):
     if not str_old: return None
 
-    list_str = str_old.split(" ")
+    list_str = re.split('[;, \n]', str_old.strip())
     for str in list_str:
         if not str.strip(): continue
 
