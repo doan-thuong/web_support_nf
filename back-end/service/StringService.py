@@ -1,4 +1,5 @@
 from urllib.parse import urlparse, parse_qs
+import re
 
 
 def has_dash(str_check):
@@ -38,6 +39,10 @@ def handle_to_get_uid(str_old):
             return str
 
     return None
+
+def clean_link(link_old):
+    return re.split('[;,\n]', link_old.strip())
+
 
 def extract_drive_id(url):
     parsed_url = urlparse(url)
