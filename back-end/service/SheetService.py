@@ -1,6 +1,6 @@
 import gspread
 
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2 import service_account
 
 from controller import APIController as api
 from service import StringService as strService
@@ -12,7 +12,7 @@ LINK_HEAD = "E:/project/security/"
 
 def get_sheet(id_sheet, name_tab_sheet):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(LINK_HEAD + "config/key-gg-config.json", scope)
+    creds = service_account.Credentials.from_service_account_file(LINK_HEAD + "config/key-gg-config.json", scope)
     client = gspread.authorize(creds)
     spreadsheet = client.open_by_key(id_sheet)
 
