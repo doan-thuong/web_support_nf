@@ -27,7 +27,7 @@ def handle_to_get_device_id(str_old):
 
     return None
 
-def handle_to_get_uid(str_old):
+def handle_to_get_uid(str_old: str):
     if not str_old: return None
 
     list_str = re.split('[;, \n]', str_old.strip())
@@ -40,7 +40,7 @@ def handle_to_get_uid(str_old):
 
     return None
 
-def clean_link(link_old):
+def clean_link(link_old: str):
     return re.split('[;,\n]', link_old.strip())
 
 

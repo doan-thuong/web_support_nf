@@ -12,7 +12,7 @@ LINK_HEAD = "E:/project/security/"
 
 def get_sheet(id_sheet, name_tab_sheet):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = service_account.Credentials.from_service_account_file(LINK_HEAD + "config/key-gg-config.json", scope)
+    creds = service_account.Credentials.from_service_account_file(LINK_HEAD + "config/key-gg-config.json", scopes=scope)
     client = gspread.authorize(creds)
     spreadsheet = client.open_by_key(id_sheet)
 
@@ -80,11 +80,16 @@ def handle_get_data(sheet, cols_to_get, status = None):
     return result
 
 def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, status = None):
-  sheet = get_sheet(id_sheet, name_tab_sheet)
-  data = handle_get_data(sheet, list_col, status)
+    sheet = get_sheet(id_sheet, name_tab_sheet)
+    data = handle_get_data(sheet, list_col, status)
 
-  if len(data) == 0:
-    print("Data null")
-    return None
-  
-  return data
+    if len(data) == 0:
+        print("Data null")
+        return None
+
+    data_after_handle = []
+
+    for item in data:
+        data_after_handle.append(handl_data_fom_sheet(item))
+
+    return data_after_handle
