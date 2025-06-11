@@ -41,6 +41,11 @@ def write_append_db(data :User):
 def remove_data_in_db(case_to_delete):
     users = read_db()
 
+    original_len = len(users)
+
     users = [user for user in users if user.case != case_to_delete]
 
-    write_db(users)
+    if len(users) == original_len:
+        print("Nothing to delete")
+    else:
+        write_db(users)
