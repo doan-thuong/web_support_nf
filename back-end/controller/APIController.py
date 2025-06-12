@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from flask_cors import CORS
 
 from service import SheetService
@@ -16,6 +17,8 @@ def get_data():
     name_sheet = "Form Responses 1"
     list_col = [i for i in range(22)]
     
-    data = SheetService.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, "")
+    status = request.args.get("status")
+
+    data = SheetService.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, status)
     
     return data
