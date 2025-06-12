@@ -1,3 +1,11 @@
+<div class="parent-select-status">
+    <select class="form-select select-status" ng-model="selectedStatus"
+        ng-options="value as value for (key, value) in statusList">
+        <option value="">-- Chọn trạng thái --</option>
+    </select>
+    <button class="button-filter" id="filter-status">Tìm</button>
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>
