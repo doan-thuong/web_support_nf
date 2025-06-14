@@ -24,17 +24,23 @@
                 <p>{{c.case}}</p>
             </td>
             <td class="uid">
-                <p>{{c.uid}}</p>
+                <div ng-repeat="uid in c.uid track by $index">
+                    <p>{{uid}}</p>
+                </div>
+                <div ng-repeat="did in c.deviceId track by $index">
+                    <p>{{did}}</p>
+                </div>
             </td>
             <td>
                 <div class="content">
-                    <p>{{c.content}}</p>
-                    <i class='bx bx-info-octagon' title="Thêm thông tin"></i>
+                    <p>{{c.content | limitTo: 200}}
+                        <span ng-if="c.content.length > 200"> ... xem thêm</span>
+                    </p>
                 </div>
             </td>
             <td>
                 <ul>
-                    <li ng-repeat="link in c.link track by $index">
+                    <li ng-repeat="link in c.link track by $index" style="list-style: none;">
                         <a href="{{link}}" target="_blank">Image</a>
                     </li>
                 </ul>
