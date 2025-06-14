@@ -10,6 +10,8 @@ LIST_TEXT_SKIP = ['Device', 'device',
                 "uID", 'uid',
                 'UId']
 
+SPECIAL_CHAR = "@()."
+
 def has_dash(str_check):
     return "-" in str_check
 
@@ -23,13 +25,15 @@ def handle_to_get_device_id(str_old: str):
     if not str_old: return None
 
     result = []
-    list_str = re.split('[;, \n]', str_old.strip())
+    list_str = re.split('[:;, \n]', str_old.strip())
     
 
     for str in list_str:
-        if not str.strip(): continue
+        if not str.strip() or len(str) < 10: continue
 
         if str in LIST_TEXT_SKIP: continue
+
+        if any(char in str for char in SPECIAL_CHAR): continue
 
         if not has_dash(str) and has_no_uppercase(str):
 
@@ -44,12 +48,14 @@ def handle_to_get_uid(str_old: str):
     if not str_old: return None
 
     result = []
-    list_str = re.split('[;, \n]', str_old.strip())
+    list_str = re.split('[:;, \n]', str_old.strip())
 
     for str in list_str:
-        if not str.strip(): continue
+        if not str.strip() or len(str) < 10: continue
 
         if str in LIST_TEXT_SKIP: continue
+
+        if any(char in str for char in SPECIAL_CHAR): continue
 
         if not has_dash(str) and not has_no_lowercase(str) and not has_no_uppercase(str):
 
