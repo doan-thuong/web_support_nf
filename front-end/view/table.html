@@ -24,7 +24,7 @@
                 <p>{{c.case}}</p>
             </td>
             <td class="uid">
-                <p>{{c.id}}</p>
+                <p>{{c.uid}}</p>
             </td>
             <td>
                 <div class="content">
@@ -33,7 +33,11 @@
                 </div>
             </td>
             <td>
-                <p>{{c.link}}</p>
+                <ul>
+                    <li ng-repeat="link in c.link track by $index">
+                        <a href="{{link}}" target="_blank">Image</a>
+                    </li>
+                </ul>
             </td>
             <td>
                 <div class="answer">
