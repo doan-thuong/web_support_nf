@@ -2,6 +2,14 @@ from urllib.parse import urlparse, parse_qs
 import re
 
 
+LIST_TEXT_SKIP = ['Device', 'device',
+                'deviceid', 'deviceId',
+                'DeviceId', 'DeviceID',
+                'Id', 'ID',
+                'Uid', 'UID',
+                "uID", 'uid',
+                'UId']
+
 def has_dash(str_check):
     return "-" in str_check
 
@@ -11,34 +19,43 @@ def has_no_uppercase(str_check):
 def has_no_lowercase(str_check):
     return not any(text.islower() for text in str_check)
 
-def handle_to_get_device_id(str_old):
+def handle_to_get_device_id(str_old: str):
     if not str_old: return None
 
+    result = []
     list_str = re.split('[;, \n]', str_old.strip())
+    
+
     for str in list_str:
         if not str.strip(): continue
 
+        if str in LIST_TEXT_SKIP: continue
+
         if not has_dash(str) and has_no_uppercase(str):
 
-            return str
+            result.append(str)
         elif  has_dash(str) and has_no_lowercase(str):
 
-            return str
+            result.append(str)
 
-    return None
+    return result
 
 def handle_to_get_uid(str_old: str):
     if not str_old: return None
 
+    result = []
     list_str = re.split('[;, \n]', str_old.strip())
+
     for str in list_str:
         if not str.strip(): continue
 
+        if str in LIST_TEXT_SKIP: continue
+
         if not has_dash(str) and not has_no_lowercase(str) and not has_no_uppercase(str):
 
-            return str
+            result.append(str)
 
-    return None
+    return result
 
 def clean_link(link_old: str):
     return re.split('[;,\n]', link_old.strip())
