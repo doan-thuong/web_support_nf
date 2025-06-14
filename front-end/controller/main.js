@@ -12,6 +12,4 @@ app.config(function ($routeProvider) {
 }
 )
 
-app.controller('myCtrl', function ($scope) {
-
-})
+app.controller('myCtrl', function ($scope) { })
