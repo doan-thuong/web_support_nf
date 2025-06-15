@@ -20,3 +20,19 @@ export async function callAPI(url) {
         throw error;
     }
 }
+
+export function setParam(url, key, value) {
+    let newUrl = new URL(url)
+
+    newUrl.searchParams.set(key, value)
+
+    return newUrl.toString()
+}
+
+export function deleteParam(url, key) {
+    let newUrl = new URL(url)
+
+    newUrl.searchParams.delete(key)
+
+    return newUrl.toString()
+}

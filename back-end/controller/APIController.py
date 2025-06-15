@@ -18,7 +18,8 @@ def get_data():
     list_col = [i for i in range(22)]
     
     status = request.args.get("status")
+    is_cache = request.args.get("cache") or False
 
-    data = SheetService.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, status)
+    data = SheetService.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, status, is_cache)
     
     return data

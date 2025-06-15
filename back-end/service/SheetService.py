@@ -10,6 +10,8 @@ from entity.User import User
 
 LINK_HEAD = "E:/project/security/"
 
+_cache_data_from_sheet = None
+
 def get_sheet(id_sheet, name_tab_sheet):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = service_account.Credentials.from_service_account_file(LINK_HEAD + "config/key-gg-config.json", scopes=scope)
@@ -79,7 +81,13 @@ def handle_get_data(sheet, cols_to_get, status = None):
 
     return result
 
-def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, status = None):
+def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, status = None, is_cache = False):
+    global _cache_data_from_sheet
+    
+    if is_cache and _cache_data_from_sheet is not None:
+        print("get data cache")
+        return _cache_data_from_sheet
+    
     sheet = get_sheet(id_sheet, name_tab_sheet)
     data = handle_get_data(sheet, list_col, status)
 
@@ -91,5 +99,7 @@ def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, status = None):
 
     for item in data:
         data_after_handle.append(handl_data_fom_sheet(item))
+
+    _cache_data_from_sheet = data_after_handle
 
     return data_after_handle
