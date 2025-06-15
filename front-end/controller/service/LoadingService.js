@@ -1,9 +1,12 @@
-export function showLoading(isShow) {
+export function showLoading() {
     const loading = document.querySelector(".loading-view")
+    const listClassLoading = loading.classList
 
-    if (isShow == true) {
+    console.log(listClassLoading)
+
+    if (!listClassLoading.contains("active")) {
         loading.classList.add("active")
-    } else if (isShow == false && loading.classList.contains("active")) {
+    } else if (listClassLoading.contains("active")) {
         loading.classList.remove("active")
     }
 }

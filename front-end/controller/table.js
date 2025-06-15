@@ -7,7 +7,7 @@ window.tableCtrl = function ($scope) {
     const status = getStatus()
     const statusBtn = document.querySelector("#filter-status")
 
-    showLoading(true)
+    showLoading()
 
     apiService.callAPI(url).then(data => {
 
@@ -15,7 +15,7 @@ window.tableCtrl = function ($scope) {
         $scope.$apply()
     }).finally(() => {
 
-        showLoading(false)
+        showLoading()
     })
 
     $scope.statusList = status
@@ -27,14 +27,14 @@ window.tableCtrl = function ($scope) {
 
         let param = `?status=${valueStatus}`
 
-        showLoading(true)
+        showLoading()
 
         apiService.callAPI(url + param).then(data => {
             $scope.cases = data
             $scope.$apply()
         }).finally(() => {
 
-            showLoading(false)
+            showLoading()
         })
     })
 }
