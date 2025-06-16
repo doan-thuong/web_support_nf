@@ -21,6 +21,18 @@ export async function callAPI(url) {
     }
 }
 
+export function cacheWhenReload(url) {
+    const entries = performance.getEntriesByType("navigation")
+
+    if (entries.length && entries[0].type === "reload") {
+        let newUrl = new URL(url)
+        newUrl.searchParams.set("cache", true)
+        url = newUrl.toString()
+    }
+
+    return url
+}
+
 export function setParam(url, key, value) {
     let newUrl = new URL(url)
 

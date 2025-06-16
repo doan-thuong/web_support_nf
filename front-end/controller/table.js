@@ -1,20 +1,15 @@
 import * as apiService from "./service/APIService.js"
 import { getStatus } from "./service/TableService.js"
-import { showLoading } from "./service/LoadingService.js"
+import { loading } from "./service/LoadingService.js"
 
 window.tableCtrl = function ($scope) {
     let url = "http://192.168.0.11:8080/getdata"
     const status = getStatus()
     const statusBtn = document.querySelector("#filter-status")
-    const entries = performance.getEntriesByType("navigation")
 
-    showLoading()
+    loading()
 
-    if (entries.length && entries[0].type === "reload") {
-        let newUrl = new URL(url)
-        newUrl.searchParams.set("cache", false)
-        url = newUrl.toString()
-    }
+    url = apiService.cacheWhenReload(url)
 
     apiService.callAPI(url).then(data => {
 
@@ -22,7 +17,7 @@ window.tableCtrl = function ($scope) {
         $scope.$apply()
     }).finally(() => {
 
-        showLoading()
+        loading()
     })
 
     $scope.statusList = status
@@ -36,7 +31,7 @@ window.tableCtrl = function ($scope) {
 
         newUrl = apiService.deleteParam(newUrl, "cache")
 
-        showLoading()
+        loading()
 
         apiService.callAPI(newUrl).then(data => {
             console.log(data)
@@ -45,7 +40,7 @@ window.tableCtrl = function ($scope) {
             $scope.$apply()
         }).finally(() => {
 
-            showLoading()
+            loading()
         })
     })
 }

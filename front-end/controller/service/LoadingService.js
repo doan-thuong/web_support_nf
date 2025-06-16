@@ -1,4 +1,4 @@
-export function showLoading() {
+export function loading() {
     const loading = document.querySelector(".loading-view")
     const listClassLoading = loading.classList
 
