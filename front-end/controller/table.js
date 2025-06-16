@@ -1,6 +1,7 @@
 import * as apiService from "./service/APIService.js"
 import { getStatus } from "./service/TableService.js"
 import { loading } from "./service/LoadingService.js"
+import * as gService from "./service/GeneralService.js"
 
 window.tableCtrl = function ($scope) {
     let url = "http://192.168.0.11:8080/getdata"
@@ -21,6 +22,9 @@ window.tableCtrl = function ($scope) {
     })
 
     $scope.statusList = status
+    $scope.copy = function (value) {
+        gService.writeToClipboard(value)
+    }
 
     statusBtn.addEventListener("click", () => {
         let valueStatus = $scope.selectedStatus

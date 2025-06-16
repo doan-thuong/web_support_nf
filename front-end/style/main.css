@@ -107,6 +107,11 @@ table tbody tr td {
     color: dodgerblue;
 }
 
+.bx-copy {
+    color: gray;
+    cursor: pointer;
+}
+
 .loading-view {
     position: fixed;
     top: 0;

@@ -25,10 +25,10 @@
             </td>
             <td class="uid">
                 <div ng-repeat="uid in c.uid track by $index">
-                    <p>{{uid}}</p>
+                    <p>{{uid}} <i class='bxr bx-copy' ng-click="copy(uid)" title="Copy"></i></p>
                 </div>
                 <div ng-repeat="did in c.device_id track by $index">
-                    <p>{{did}}</p>
+                    <p>{{did}} <i class='bxr bx-copy' ng-click="copy(did)" title="Copy"></i></p>
                 </div>
             </td>
             <td>
