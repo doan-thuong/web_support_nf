@@ -3,6 +3,7 @@ from flask import request
 from flask_cors import CORS
 
 from service import SheetService
+from service import StringService
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def get_data():
     list_col = [i for i in range(22)]
     
     status = request.args.get("status")
-    is_cache = request.args.get("cache") or False
+    is_cache = StringService.str_to_bool(request.args.get("cache"))
 
     data = SheetService.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, status, is_cache)
     

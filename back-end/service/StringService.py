@@ -66,6 +66,8 @@ def handle_to_get_uid(str_old: str):
 def clean_link(link_old: str):
     return re.split('[;,\n]', link_old.strip())
 
+def str_to_bool(value):
+    return str(value).lower() in ("true", "1")
 
 def extract_drive_id(url):
     parsed_url = urlparse(url)
