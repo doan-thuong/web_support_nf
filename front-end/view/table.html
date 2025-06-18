@@ -34,7 +34,7 @@
             <td>
                 <div class="content">
                     <p>{{c.content | limitTo: 200}}
-                        <span ng-if="c.content.length > 200"> ... xem thêm</span>
+                        <span ng-if="c.content.length > 200" ng-click="showInfor(c.content)"> ... xem thêm</span>
                     </p>
                 </div>
             </td>

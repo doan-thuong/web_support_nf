@@ -112,6 +112,25 @@ table tbody tr td {
     cursor: pointer;
 }
 
+.show-more {
+    width: 600px;
+    max-height: 350px;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    background-color: white;
+    transform: translateX(-50%);
+    padding: 20px;
+    border-radius: 15px;
+    opacity: 1;
+    z-index: 1000;
+}
+
+.des-show-more {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
 .loading-view {
     position: fixed;
     top: 0;
@@ -144,6 +163,26 @@ table tbody tr td {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(170, 170, 170, 0.5);
+    z-index: 999;
+}
+
+.disable {
+    display: none;
+}
+
+.enable {
+    display: block;
 }
 
 @keyframes spin {
