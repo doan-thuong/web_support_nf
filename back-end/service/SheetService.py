@@ -10,8 +10,6 @@ from entity.User import User
 
 LINK_HEAD = "E:/project/security/"
 
-_cache_data_from_sheet = None
-
 def get_sheet(id_sheet, name_tab_sheet):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = service_account.Credentials.from_service_account_file(LINK_HEAD + "config/key-gg-config.json", scopes=scope)
@@ -19,6 +17,12 @@ def get_sheet(id_sheet, name_tab_sheet):
     spreadsheet = client.open_by_key(id_sheet)
 
     return spreadsheet.worksheet(name_tab_sheet)
+
+def get_all_data(sheet):
+    all_values = sheet.get_all_values()
+    data_rows = all_values[1:]
+
+    return data_rows
 
 def handl_data_fom_sheet(list_data_from_row):
     # col 1 - case
@@ -59,47 +63,44 @@ def handl_data_fom_sheet(list_data_from_row):
 
     return User(case, uid, device_id, mail, content, link, id_bill, answer, status)
 
-def handle_get_data(sheet, cols_to_get, status = None):
-    all_values = sheet.get_all_values()
-    data_rows = all_values[1:]
-
+def extract_data_rows(sheet, cols_to_get, get_case_min=None, get_case_max=None, status=None):
+    data_rows = get_all_data(sheet)
     result = []
+
     for idx, row in enumerate(data_rows):
-        row_number = idx + 2  # vì idx bắt đầu từ 0, dòng thực là từ 2
+        row_number = idx + 2  # vì Google Sheet index bắt đầu từ 1, bỏ header
+
+        # --- Filter theo case ---
+        try:
+            case = int(row[0])
+        except (ValueError, IndexError, TypeError):
+            case = None
+
+        if case is not None:
+            # Nếu min và max đều có và min > max thì đảo chiều điều kiện
+            if get_case_min is not None and get_case_max is not None and get_case_min > get_case_max:
+                if case > get_case_min or case < get_case_max:
+                    continue
+            else:
+                if get_case_min is not None and case < get_case_min:
+                    continue
+                if get_case_max is not None and case > get_case_max:
+                    break
+
+        # --- Filter theo status ---
+        if status is not None:
+            try:
+                if row[21] not in status:
+                    continue
+            except IndexError:
+                continue
+
+        # --- Lấy dữ liệu theo cột chỉ định ---
         row_data = {"row": row_number}
-
-        if status is not None and row[21] not in status:
-            continue
-
         for col_idx in cols_to_get:
-
             value = row[col_idx] if col_idx < len(row) else ""
-
             row_data[col_idx] = value.strip()
-
+        
         result.append(row_data)
 
     return result
-
-def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, status = None, is_cache = False):
-    global _cache_data_from_sheet
-    
-    if is_cache and _cache_data_from_sheet is not None:
-        print("get data cache")
-        return _cache_data_from_sheet
-    
-    sheet = get_sheet(id_sheet, name_tab_sheet)
-    data = handle_get_data(sheet, list_col, status)
-
-    if len(data) == 0:
-        print("Data null")
-        return None
-
-    data_after_handle = []
-
-    for item in data:
-        data_after_handle.append(handl_data_fom_sheet(item))
-
-    _cache_data_from_sheet = data_after_handle
-
-    return data_after_handle

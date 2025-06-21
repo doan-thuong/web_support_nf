@@ -1,8 +1,9 @@
 from flask import Flask
 from flask import request
 from flask_cors import CORS
+from flask import jsonify
 
-from service import SheetService
+from controller import SheetController
 from service import StringService
 
 app = Flask(__name__)
@@ -18,9 +19,16 @@ def get_data():
     name_sheet = "Form Responses 1"
     list_col = [i for i in range(22)]
     
-    status = request.args.get("status")
-    is_cache = StringService.str_to_bool(request.args.get("cache"))
+    try:
+        case_min = int(case_min) if (case_min := request.args.get("caseMin")) is not None else None
+        case_max = int(case_max) if (case_max := request.args.get("caseMax")) is not None else None
+        status = request.args.get("status")
+        is_cache = StringService.str_to_bool(request.args.get("cache"))
 
-    data = SheetService.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, status, is_cache)
-    
-    return data
+        data = SheetController.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, case_min, case_max, status, is_cache)
+        
+        print(len(data))
+
+        return data
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
