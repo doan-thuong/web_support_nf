@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, parse_qs
 import re
+from dateutil import parser
 
 
 LIST_TEXT_SKIP = ['Device', 'device',
@@ -87,3 +88,9 @@ def extract_drive_id(url):
             pass
 
     return None
+
+def convert_datetime_from_str(str_dt:str):
+    if not str_dt:
+        return None
+
+    return parser.parse(str_dt)

@@ -36,6 +36,7 @@ def handl_data_fom_sheet(list_data_from_row):
 
     data_dict = {
         "case": [0],
+        "date": [1],
         "get_id": [16],
         "content": [10, 12, 14],
         "link": [11, 13, 15],
@@ -45,6 +46,8 @@ def handl_data_fom_sheet(list_data_from_row):
     }
 
     case = list_data_from_row[data_dict["case"][0]]
+
+    date = strService.convert_datetime_from_str(list_data_from_row[data_dict["date"][0]])
 
     get_id = list_data_from_row[data_dict["get_id"][0]]
     uid = strService.handle_to_get_uid(get_id)
@@ -61,7 +64,7 @@ def handl_data_fom_sheet(list_data_from_row):
     answer = list_data_from_row[data_dict["answer"][0]]
     status = list_data_from_row[data_dict ["status"][0]]
 
-    return User(case, uid, device_id, mail, content, link, id_bill, answer, status)
+    return User(case, date, uid, device_id, mail, content, link, id_bill, answer, status)
 
 def extract_data_rows(sheet, cols_to_get, get_case_min=None, get_case_max=None, status=None):
     data_rows = get_all_data(sheet)
