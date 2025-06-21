@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th>Case</th>
+            <th>Date</th>
             <th>UID/ Device ID</th>
             <th>Content</th>
             <th>Link Image</th>
@@ -27,6 +28,9 @@
         <tr ng-repeat="c in cases">
             <td class="case">
                 <p>{{c.case}}</p>
+            </td>
+            <td class="case">
+                <p>{{c.date}}</p>
             </td>
             <td class="uid">
                 <div ng-repeat="uid in c.uid track by $index">
