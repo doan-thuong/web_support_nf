@@ -145,7 +145,7 @@ table tbody tr td {
 
 .show-more {
     width: 600px;
-    max-height: 350px;
+    max-height: 450px;
     position: fixed;
     top: 10px;
     left: 50%;
@@ -158,7 +158,8 @@ table tbody tr td {
 }
 
 .des-show-more {
-    max-height: 250px;
+    max-height: 350px;
+    white-space: pre-line;
     overflow-y: auto;
 }
 

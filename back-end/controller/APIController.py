@@ -26,8 +26,6 @@ def get_data():
         is_cache = StringService.str_to_bool(request.args.get("cache"))
 
         data = SheetController.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, case_min, case_max, status, is_cache)
-        
-        print(len(data))
 
         return data
     except Exception as e:
