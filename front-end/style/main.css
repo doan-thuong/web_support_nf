@@ -20,12 +20,43 @@ body {
         height: 40px;
         border-radius: 10px;
         border: 0.5px solid rgb(40, 140, 255);
+        color: rgb(40, 140, 255);
         background-color: rgba(255, 0, 0, 0);
 
         &:hover {
             color: white;
             background-color: rgb(40, 140, 255);
         }
+    }
+
+    .button-refresh {
+        width: 80px;
+        height: 40px;
+        border-radius: 10px;
+        border: 0.5px solid rgb(165, 165, 165);
+        background-color: rgba(255, 0, 0, 0);
+
+        &:hover {
+            color: white;
+            background-color: rgb(160, 160, 160);
+        }
+    }
+}
+
+.form-inp-case {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+    .inp-case {
+        width: 150px;
+        height: 40px;
+        border-radius: 10px;
+        border: 0.5px solid rgb(40, 140, 255);
+        color: rgb(40, 140, 255);
+        outline: none;
+        padding-left: 15px;
     }
 }
 

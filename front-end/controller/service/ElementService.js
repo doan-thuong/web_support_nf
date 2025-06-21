@@ -12,8 +12,6 @@ export function CreateElementInfor() {
 export function createElementOverlay() {
     const getOverlay = document.querySelectorAll(".overlay")
 
-    console.log(getOverlay)
-
     if (getOverlay.length > 0) {
         let getClassList = getOverlay[0].classList
 
@@ -25,7 +23,6 @@ export function createElementOverlay() {
         return getOverlay[0]
     }
 
-    console.log("create overlay")
     const overlay = document.createElement("div")
     const body = document.querySelector("body")
 

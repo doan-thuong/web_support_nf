@@ -7,7 +7,10 @@ import * as eService from "./service/ElementService.js"
 window.tableCtrl = function ($scope) {
     let url = "http://192.168.0.11:8080/getdata"
     const status = getStatus()
-    const statusBtn = document.querySelector("#filter-status")
+    const statusBtn = document.querySelector("#btn-filter")
+    const refreshBtn = document.querySelector("#refresh")
+    const inpCaseMin = document.querySelector("#inp-case-min")
+    const inpCaseMax = document.querySelector("#inp-case-max")
     const body = document.querySelector("body")
 
     loading()
@@ -29,17 +32,45 @@ window.tableCtrl = function ($scope) {
     }
 
     statusBtn.addEventListener("click", () => {
-        let valueStatus = $scope.selectedStatus
+        let urlSearch = url
+        let isSearch = false
 
-        if (valueStatus == "" || valueStatus == null) return
+        const searchParams = [
+            { key: "status", value: $scope.selectedStatus },
+            { key: "caseMin", value: inpCaseMin.value },
+            { key: "caseMax", value: inpCaseMax.value },
+        ]
 
-        let newUrl = apiService.setParam(url, "status", valueStatus)
+        searchParams.forEach(param => {
+            if (param.value !== undefined && param.value !== null && param.value !== "") {
+                urlSearch = apiService.setParam(urlSearch, param.key, param.value)
+                isSearch = true
+            }
+        })
 
-        newUrl = apiService.deleteParam(newUrl, "cache")
+        urlSearch = apiService.deleteParam(urlSearch, "cache")
+
+        if (!isSearch) return
 
         loading()
 
-        apiService.callAPI(newUrl).then(data => {
+        apiService.callAPI(urlSearch).then(data => {
+            console.log(data)
+
+            $scope.cases = data
+            $scope.$apply()
+        }).finally(() => {
+
+            loading()
+        })
+    })
+
+    refreshBtn.addEventListener("click", () => {
+        let urlRefresh = apiService.setParam(url, "cache", false)
+
+        loading()
+
+        apiService.callAPI(urlRefresh).then(data => {
             console.log(data)
 
             $scope.cases = data
