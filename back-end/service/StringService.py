@@ -89,8 +89,11 @@ def extract_drive_id(url):
 
     return None
 
-def convert_datetime_from_str(str_dt:str):
-    if not str_dt:
+def convert_datetime_from_str(str_dt: str):
+    if not str_dt.strip():
         return None
 
-    return parser.parse(str_dt)
+    try:
+        return parser.parse(str_dt)
+    except (ValueError, TypeError):
+        return None
