@@ -6,9 +6,17 @@ _data_not_refresh = None
 
 def get_all_data(sheet):
     all_values = sheet.get_all_values()
+
+    # --- trừ dòng đầu tiên
     data_rows = all_values[1:]
 
     return data_rows
+
+# --- lấy dòng cụ thể. bắt đầu từ 1, không phải là 0 ---
+def get_specific_row(sheet, row_need_to_get):
+    data = sheet.row_values(row_need_to_get)
+
+    return data
 
 def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col,get_date_min = None, get_date_max = None, get_case_min = None, get_case_max = None, status = None, is_cache = False, is_refresh = False):
     global _cache_data_from_sheet
