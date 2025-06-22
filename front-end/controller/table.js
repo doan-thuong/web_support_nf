@@ -11,6 +11,8 @@ window.tableCtrl = function ($scope) {
     const refreshBtn = document.querySelector("#refresh")
     const inpCaseMin = document.querySelector("#inp-case-min")
     const inpCaseMax = document.querySelector("#inp-case-max")
+    const inpDateMin = document.querySelector("#inp-date-min")
+    const inpDateMax = document.querySelector("#inp-date-max")
     const body = document.querySelector("body")
 
     loading()
@@ -39,6 +41,8 @@ window.tableCtrl = function ($scope) {
             { key: "status", value: $scope.selectedStatus },
             { key: "caseMin", value: inpCaseMin.value },
             { key: "caseMax", value: inpCaseMax.value },
+            { key: "dateMin", value: inpDateMin.value },
+            { key: "dateMax", value: inpDateMax.value },
         ]
 
         searchParams.forEach(param => {
