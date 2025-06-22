@@ -4,6 +4,7 @@ from google.oauth2 import service_account
 
 from controller import APIController as api
 from service import StringService as strService
+from service import GeneralService as gService
 
 from entity.User import User
 
@@ -66,31 +67,37 @@ def handl_data_fom_sheet(list_data_from_row):
 
     return User(case, date, uid, device_id, mail, content, link, id_bill, answer, status)
 
-def extract_data_rows(sheet, cols_to_get, get_case_min=None, get_case_max=None, status=None):
+def extract_data_rows(sheet, cols_to_get, get_date_min=None, get_date_max=None, get_case_min=None, get_case_max=None,
+                      status=None):
+
     data_rows = get_all_data(sheet)
     result = []
 
     for idx, row in enumerate(data_rows):
-        row_number = idx + 2  # vì Google Sheet index bắt đầu từ 1, bỏ header
+        row_number = idx + 2
 
-        # --- Filter theo case ---
-        try:
-            case = int(row[0])
-        except (ValueError, IndexError, TypeError):
-            case = None
+        # --- Filter theo CASE ---
+        if get_case_min or get_case_max:
+            try:
+                case = int(row[0])
+            except (ValueError, IndexError, TypeError):
+                case = None
 
-        if case is not None:
-            # Nếu min và max đều có và min > max thì đảo chiều điều kiện
-            if get_case_min is not None and get_case_max is not None and get_case_min > get_case_max:
-                if case > get_case_min or case < get_case_max:
-                    continue
-            else:
-                if get_case_min is not None and case < get_case_min:
-                    continue
-                if get_case_max is not None and case > get_case_max:
-                    break
+            if not gService.is_value_in_range(case, get_case_min, get_case_max, auto_swap=True):
+                continue
 
-        # --- Filter theo status ---
+        # --- Filter theo DATE ---
+        if get_date_min or get_date_max:
+            try:
+                date_str = row[1]
+                date_obj = strService.convert_datetime_from_str(date_str)
+            except (IndexError, ValueError, TypeError):
+                continue
+
+            if not gService.is_value_in_range(date_obj, get_date_min, get_date_max, auto_swap=True):
+                continue
+
+        # --- Filter theo STATUS ---
         if status is not None:
             try:
                 if row[21] not in status:
@@ -98,12 +105,11 @@ def extract_data_rows(sheet, cols_to_get, get_case_min=None, get_case_max=None, 
             except IndexError:
                 continue
 
-        # --- Lấy dữ liệu theo cột chỉ định ---
         row_data = {"row": row_number}
         for col_idx in cols_to_get:
             value = row[col_idx] if col_idx < len(row) else ""
             row_data[col_idx] = value.strip()
-        
+
         result.append(row_data)
 
     return result

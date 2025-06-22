@@ -3,7 +3,7 @@ from service import SheetService as sService
 
 _cache_data_from_sheet = None
 
-def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, get_case_min = None, get_case_max = None, status = None, is_cache = False):
+def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col,get_date_min = None, get_date_max = None, get_case_min = None, get_case_max = None, status = None, is_cache = False):
     global _cache_data_from_sheet
     
     if is_cache and _cache_data_from_sheet is not None:
@@ -11,7 +11,7 @@ def get_data_from_gg_sheet(id_sheet, name_tab_sheet, list_col, get_case_min = No
         return _cache_data_from_sheet
     
     sheet = sService.get_sheet(id_sheet, name_tab_sheet)
-    data = sService.extract_data_rows(sheet, list_col, get_case_min, get_case_max, status=status)
+    data = sService.extract_data_rows(sheet, list_col, get_date_min, get_date_max, get_case_min, get_case_max, status=status)
 
     if len(data) == 0:
         print("Data null")
