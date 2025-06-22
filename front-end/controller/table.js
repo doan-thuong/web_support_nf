@@ -70,7 +70,18 @@ window.tableCtrl = function ($scope) {
     })
 
     refreshBtn.addEventListener("click", () => {
-        let urlRefresh = apiService.setParam(url, "cache", false)
+        const params = [
+            { key: "cache", value: false },
+            { key: "refresh", value: true },
+        ]
+
+        let urlRefresh = url
+
+        params.forEach(param => {
+            if (param.value !== undefined && param.value !== null && param.value !== "") {
+                urlSearch = apiService.setParam(urlSearch, param.key, param.value)
+            }
+        })
 
         loading()
 
