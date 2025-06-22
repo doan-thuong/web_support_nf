@@ -19,12 +19,6 @@ def get_sheet(id_sheet, name_tab_sheet):
 
     return spreadsheet.worksheet(name_tab_sheet)
 
-def get_all_data(sheet):
-    all_values = sheet.get_all_values()
-    data_rows = all_values[1:]
-
-    return data_rows
-
 def handl_data_fom_sheet(list_data_from_row):
     # col 1 - case
     # col 11, 13, 15 - user's content
@@ -67,10 +61,8 @@ def handl_data_fom_sheet(list_data_from_row):
 
     return User(case, date, uid, device_id, mail, content, link, id_bill, answer, status)
 
-def extract_data_rows(sheet, cols_to_get, get_date_min=None, get_date_max=None, get_case_min=None, get_case_max=None,
+def extract_data_rows(data_rows, cols_to_get, get_date_min=None, get_date_max=None, get_case_min=None, get_case_max=None,
                       status=None):
-
-    data_rows = get_all_data(sheet)
     result = []
 
     for idx, row in enumerate(data_rows):

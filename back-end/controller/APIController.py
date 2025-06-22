@@ -29,8 +29,9 @@ def get_data():
         status = request.args.get("status")
         
         is_cache = StringService.str_to_bool(request.args.get("cache"))
+        is_refresh = StringService.str_to_bool(request.args.get("refresh"))
 
-        data = SheetController.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, date_min, date_max, case_min, case_max, status, is_cache)
+        data = SheetController.get_data_from_gg_sheet(id_sheet, name_sheet, list_col, date_min, date_max, case_min, case_max, status, is_cache, is_refresh)
 
         return data
     except Exception as e:
