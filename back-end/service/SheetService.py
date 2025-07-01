@@ -105,3 +105,12 @@ def extract_data_rows(data_rows, cols_to_get, get_date_min=None, get_date_max=No
         result.append(row_data)
 
     return result
+
+def edit_cell(sheet:gspread.worksheet.Worksheet, cell , data, is_append:bool = False):
+    if is_append:
+        current_value = sheet.acell(cell). value or ""
+        new_value = f"{current_value}\n{data}"
+    else:
+        new_value = data
+
+    sheet.update(cell, new_value)
