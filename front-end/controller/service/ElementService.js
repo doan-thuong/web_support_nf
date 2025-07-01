@@ -139,3 +139,50 @@ export function removeElementById(ele) {
         element.remove()
     }
 }
+
+function createPageItem(page, text = page, isDisabled = false, isActive = false) {
+    return `<li class="page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active-page' : ''}">
+                ${text}
+            </li>`
+}
+
+export function generatePagination(currentPage, totalPages) {
+    const paginationContainer = document.getElementById('pagination')
+
+    paginationContainer.innerHTML = ''
+    if (totalPages <= 1) {
+        return
+    }
+
+    if (!paginationContainer.innerHTML) {
+
+        paginationContainer.innerHTML += createPageItem('prev', '&laquo', currentPage === 1)
+        paginationContainer.innerHTML += createPageItem(1, 1, false, currentPage === 1)
+
+        if (currentPage > 3) paginationContainer.innerHTML += createPageItem('dots', '...', true)
+
+        for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+            paginationContainer.innerHTML += createPageItem(i, i, false, i === currentPage)
+        }
+
+        if (currentPage < totalPages - 2) paginationContainer.innerHTML += createPageItem('dots', '...', true)
+
+        paginationContainer.innerHTML += createPageItem(totalPages, totalPages, false, currentPage === totalPages)
+
+        paginationContainer.innerHTML += createPageItem('next', '&raquo', currentPage === totalPages)
+    } else {
+        const prevItem = paginationContainer.querySelector('.page-item:first-child')
+        prevItem.classList.toggle('disabled', currentPage === 1)
+
+        const pageItems = paginationContainer.querySelectorAll('.page-item')
+        pageItems.forEach(item => {
+            const page = parseInt(item.textContent)
+            if (!isNaN(page)) {
+                item.classList.toggle('active-page', page === currentPage)
+            }
+        })
+
+        const nextItem = paginationContainer.querySelector('.page-item:last-child')
+        nextItem.classList.toggle('disabled', currentPage === totalPages)
+    }
+}

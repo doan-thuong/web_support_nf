@@ -6,22 +6,29 @@ import * as eService from "./service/ElementService.js"
 
 window.tableCtrl = function ($scope) {
     let url = "http://192.168.0.11:8080/getdata"
+    let currentPage = 0
     const status = getStatus()
+
     const statusBtn = document.querySelector("#btn-filter")
     const refreshBtn = document.querySelector("#refresh")
+
     const inpCaseMin = document.querySelector("#inp-case-min")
     const inpCaseMax = document.querySelector("#inp-case-max")
     const inpDateMin = document.querySelector("#inp-date-min")
     const inpDateMax = document.querySelector("#inp-date-max")
+
     const body = document.querySelector("body")
+    const paginationContainer = document.querySelector('.pagination')
 
     loading()
 
     url = apiService.cacheWhenReload(url)
 
-    apiService.callAPI(url).then(data => {
+    apiService.callAPI(url).then(res => {
 
-        $scope.cases = data
+        $scope.cases = res.data
+        eService.generatePagination(1, res.length)
+
         $scope.$apply()
     }).finally(() => {
 
@@ -58,11 +65,11 @@ window.tableCtrl = function ($scope) {
 
         loading()
 
-        apiService.callAPI(urlSearch).then(data => {
-            console.log(data)
-
-            $scope.cases = data
+        apiService.callAPI(urlSearch).then(res => {
+            $scope.cases = res.data
+            eService.generatePagination(1, res.length)
             $scope.$apply()
+
         }).finally(() => {
 
             loading()
@@ -85,10 +92,9 @@ window.tableCtrl = function ($scope) {
 
         loading()
 
-        apiService.callAPI(urlRefresh).then(data => {
-            console.log(data)
-
-            $scope.cases = data
+        apiService.callAPI(urlRefresh).then(res => {
+            $scope.cases = res.data
+            eService.generatePagination(1, res.length)
             $scope.$apply()
         }).finally(() => {
 
@@ -126,4 +132,24 @@ window.tableCtrl = function ($scope) {
             });
         })
     }
+
+    paginationContainer.addEventListener('click', (event) => {
+        const item = event.target;
+
+        if (!item.classList.contains('page-item')) {
+            return
+        }
+
+        let page = item.innerText
+
+        if (page == '«') {
+            page = currentPage - 1
+        } else if (page == '»') {
+            page = currentPage + 1
+        }
+
+        currentPage = parseInt(page)
+
+        console.log(currentPage)
+    })
 }
