@@ -11,7 +11,7 @@ from entity.User import User
 
 LINK_HEAD = "E:/project/security/"
 
-def get_sheet(id_sheet, name_tab_sheet):
+def get_sheet(id_sheet, name_tab_sheet) -> gspread.worksheet.Worksheet:
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = service_account.Credentials.from_service_account_file(LINK_HEAD + "config/key-gg-config.json", scopes=scope)
     client = gspread.authorize(creds)
