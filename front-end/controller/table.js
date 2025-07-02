@@ -6,6 +6,7 @@ import * as eService from "./service/ElementService.js"
 
 window.tableCtrl = function ($scope) {
     let url = "http://192.168.0.11:8080/getdata"
+    let urlBase = "http://192.168.0.11:8080/"
     let currentPage = 0
     const status = getStatus()
 
@@ -24,9 +25,10 @@ window.tableCtrl = function ($scope) {
 
     url = apiService.cacheWhenReload(url)
 
-    apiService.callAPI(url).then(res => {
+    apiService.callAPI(urlBase + "firstGetData").then(res => {
 
         $scope.cases = res.data
+        console.log(res.data)
         eService.generatePagination(1, res.length)
 
         $scope.$apply()
@@ -150,6 +152,19 @@ window.tableCtrl = function ($scope) {
 
         currentPage = parseInt(page)
 
-        console.log(currentPage)
+        let urlPage = urlBase + "pageData"
+        urlPage = apiService.setParam(urlPage, "page", currentPage)
+
+        loading()
+
+        apiService.callAPI(urlPage).then(res => {
+            $scope.cases = res.data
+            console.log(res.data)
+            eService.generatePagination(currentPage, res.length)
+            $scope.$apply()
+        }).finally(() => {
+
+            loading()
+        })
     })
 }
