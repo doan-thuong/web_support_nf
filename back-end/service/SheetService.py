@@ -61,22 +61,49 @@ def handl_data_fom_sheet(list_data_from_row):
 
     return User(case, date, uid, device_id, mail, content, link, id_bill, answer, status)
 
-def extract_data_rows(data_rows, cols_to_get, get_date_min=None, get_date_max=None, get_case_min=None, get_case_max=None,
-                      status=None):
+def extract_data_rows(data_rows,
+                    cols_to_get,
+                    get_date_min=None,
+                    get_date_max=None,
+                    get_case_min=None,
+                    get_case_max=None,
+                    page=None,
+                    status=None):
+    
     result = []
+
+    # --- Filter theo PAGE
+    size_in_page = 100
+    
+    if page:
+        try:
+            page_number = int(page) - 1
+        except (TypeError, ValueError):
+            page_number = None
+
+        min_case_in_page = page_number*size_in_page
+        max_case_in_page = min_case_in_page + size_in_page - 1
+        print(f"{min_case_in_page} and {max_case_in_page}")
+
+    count = 0
 
     for idx, row in enumerate(data_rows):
         row_number = idx + 2
+        if count >= size_in_page: break
 
         # --- Filter theo CASE ---
+        try:
+            case = int(row[0])
+        except (ValueError, IndexError, TypeError):
+            case = None
         if get_case_min or get_case_max:
-            try:
-                case = int(row[0])
-            except (ValueError, IndexError, TypeError):
-                case = None
-
             if not gService.is_value_in_range(case, get_case_min, get_case_max, auto_swap=True):
                 continue
+
+        # --- Filter theo PAGE
+        if page and case:
+            if case > max_case_in_page: break
+            if not gService.is_value_in_range(case, min_case_in_page, max_case_in_page): continue
 
         # --- Filter theo DATE ---
         if get_date_min or get_date_max:
@@ -103,6 +130,7 @@ def extract_data_rows(data_rows, cols_to_get, get_date_min=None, get_date_max=No
             row_data[col_idx] = value.strip()
 
         result.append(row_data)
+        count += 1
 
     return result
 
